@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AEGIS — Defending Essential Infrastructure</title>
+  <meta name="description" content="AEGIS provides real-time detection, graph-based reasoning, and human-gated response for IT/OT networks. Built for operators priced out of legacy enterprise security suites.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/marketing/css/marketing.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="nav-bar">
+    <div class="nav-container">
+      <div class="brand">
+        <a href="/index.html" class="lockup">
+          <div class="glass-tile small-tile">
+            <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+              <path d="M 50 6 L 62 22 L 54 22 L 50 16 L 46 22 L 38 22 Z" fill="url(#accentGradNav)"/>
+              <path d="M50 28 L78 88 L64 88 L58.5 74 L41.5 74 L36 88 L22 88 Z" fill="#E6E8EB"/>
+              <rect class="logo-bg-rect" x="44" y="60" width="12" height="8" fill="var(--bg-base)"/>
+              <defs>
+                <linearGradient id="accentGradNav" x1="38" y1="6" x2="62" y2="22" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#FFD37A"/>
+                  <stop offset="1" stop-color="#FFB020"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <span class="aegis-wordmark">Aegis</span>
+        </a>
+        <span class="status-indicator">
+          <span class="status-dot"></span>
+          <span class="status-text font-mono">SYS.NOMINAL</span>
+        </span>
+      </div>
+      <nav class="nav-links">
+        <a href="#gap">The Gap</a>
+        <a href="#system">Subsystems</a>
+        <a href="#proof">Proof</a>
+        <a href="#contact" class="cta-link">Deploy</a>
+        <a href="/dashboard.html" class="nav-dashboard-btn font-mono">CONSOLE →</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section with Full-Bleed Video Background -->
+    <section class="hero-section hero-fullbleed">
+      <div class="video-container">
+        <!-- Loop video background, initially hidden to fade-in once canplay is fired -->
+        <video id="hero-video" class="hero-video-bg" autoplay muted loop playsinline poster="/src/marketing/assets/hero_background.png">
+          <source src="/src/marketing/assets/hero_video.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+      </div>
+      
+      <div class="hero-content-center">
+        <span class="eyebrow font-mono">IT/OT ORCHESTRATION</span>
+        <h1 class="hero-headline">Security reasoning for<br>critical infrastructure.</h1>
+        <p class="hero-subline">
+          Real-time threat isolation and MITRE ATT&CK chain analysis. Designed for hospital networks, municipal utilities, and industrial control systems that cannot afford legacy cost or complexity.
+        </p>
+        <div class="hero-actions-center">
+          <a href="#contact" class="btn btn-primary">Request Integration</a>
+          <a href="/dashboard.html" class="btn btn-secondary font-mono">Launch Console</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Dedicated Telemetry / Reasoning Panel Section -->
+    <section id="telemetry-deck" class="telemetry-deck-section reveal-on-scroll">
+      <div class="section-container">
+        <span class="section-eyebrow font-mono">LIVE SIMULATION TRACKER</span>
+        <div class="telemetry-deck-layout">
+          <div class="telemetry-deck-intro">
+            <h2>Real-time network reasoning in action.</h2>
+            <p>
+              This is the live behavior of our reasoning platform. The simulation shows a multi-stage intrusion traversing telemetry streams: from VPN credential abuse to PLC registers writes, detected and contained in real time.
+            </p>
+          </div>
+          
+          <!-- Signature Hero Schematic (now sitting below the fold) -->
+          <div class="hero-schematic-container">
+            <div class="schematic-header font-mono">
+              <span>SIMULATION_MODE // TELEMETRY_FEED</span>
+              <span class="simulation-status">ACTIVE</span>
+            </div>
+            <div class="schematic-canvas-wrapper">
+              <svg id="hero-schematic" viewBox="0 0 500 350" xmlns="http://www.w3.org/2000/svg">
+                <!-- Grid background -->
+                <defs>
+                  <pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse">
+                    <path d="M 25 0 L 0 0 0 25" fill="none" stroke="#1d1d1d" stroke-width="1"/>
+                  </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)" />
+                
+                <!-- Connection Lines -->
+                <g class="connections" stroke="#2A2A2A" stroke-width="2" fill="none">
+                  <!-- Group 1 -> Group 2 -->
+                  <path id="path-1-4" d="M 60,175 C 130,175 130,70 200,70" />
+                  <path id="path-2-4" d="M 60,90 C 130,90 130,70 200,70" />
+                  <path id="path-3-5" d="M 60,260 C 130,260 130,180 200,180" />
+                  
+                  <!-- Group 2 -> Group 3 -->
+                  <path id="path-4-6" d="M 200,70 C 310,70 310,130 420,130" />
+                  <path id="path-5-7" d="M 200,180 C 310,180 310,230 420,230" />
+                  <path id="path-4-7" d="M 200,70 C 310,70 310,230 420,230" />
+                </g>
+
+                <!-- Glowing overlay paths for active animations -->
+                <g class="active-connections" stroke-width="2.5" fill="none">
+                  <path id="active-path-1" d="M 60,175 C 130,175 130,70 200,70" stroke="transparent" />
+                  <path id="active-path-2" d="M 200,70 C 310,70 310,230 420,230" stroke="transparent" />
+                </g>
+
+                <!-- Node points -->
+                <g class="nodes">
+                  <!-- Ingress Nodes -->
+                  <g class="node-group" id="node-lan-ingress" transform="translate(60, 90)">
+                    <circle r="7" class="node-outer" />
+                    <circle r="4" class="node-inner" />
+                    <text x="12" y="4" class="font-mono text-node">INGRESS_01</text>
+                  </g>
+                  <g class="node-group" id="node-modbus-gateway" transform="translate(60, 175)">
+                    <circle r="7" class="node-outer" />
+                    <circle r="4" class="node-inner" />
+                    <text x="12" y="4" class="font-mono text-node">MODBUS_GW</text>
+                  </g>
+                  <g class="node-group" id="node-vpn-ingress" transform="translate(60, 260)">
+                    <circle r="7" class="node-outer" />
+                    <circle r="4" class="node-inner" />
+                    <text x="12" y="4" class="font-mono text-node">VPN_GW</text>
+                  </g>
+
+                  <!-- Reasoning Layers -->
+                  <g class="node-group" id="node-isolation-forest" transform="translate(200, 70)">
+                    <circle r="9" class="node-outer" />
+                    <circle r="5" class="node-inner" />
+                    <text x="0" y="-14" text-anchor="middle" class="font-mono text-node">DETECTION_ENGINE</text>
+                  </g>
+                  <g class="node-group" id="node-mitre-reasoner" transform="translate(200, 180)">
+                    <circle r="9" class="node-outer" />
+                    <circle r="5" class="node-inner" />
+                    <text x="0" y="-14" text-anchor="middle" class="font-mono text-node">ATT&CK_REASONER</text>
+                  </g>
+
+                  <!-- Terminals / Actions -->
+                  <g class="node-group" id="node-isolate-domain" transform="translate(420, 130)">
+                    <circle r="7" class="node-outer" />
+                    <circle r="4" class="node-inner" />
+                    <text x="-12" y="4" text-anchor="end" class="font-mono text-node">ISOLATE_DC</text>
+                  </g>
+                  <g class="node-group" id="node-shut-breaker" transform="translate(420, 230)">
+                    <circle r="7" class="node-outer" />
+                    <circle r="4" class="node-inner" />
+                    <text x="-12" y="4" text-anchor="end" class="font-mono text-node">TRIP_MODBUS</text>
+                  </g>
+                </g>
+              </svg>
+            </div>
+            <div class="schematic-footer font-mono">
+              <span id="schematic-log">SYSTEM STATUS: IDLE. STANDBY FOR SIMULATED SCENARIO.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Gap Section -->
+    <section id="gap" class="gap-section reveal-on-scroll">
+      <div class="section-container">
+        <span class="section-eyebrow font-mono">THE GAP</span>
+        <div class="gap-layout">
+          <div class="gap-intro">
+            <h2>Priced out of enterprise security.</h2>
+            <p>
+              Legacy security operations tools demand heavy annual licensing and months of specialized consulting. Municipalities, regional hospitals, and mid-sized industrial operators are left to defend critical networks with tools built for office IT. AEGIS bridges this gap with self-hosted agentic isolation that works out of the box.
+            </p>
+          </div>
+          <div class="gap-comparison-strip">
+            <div class="comparison-header font-mono">
+              <span>LEGACY SUITE VS. AEGIS</span>
+            </div>
+            <div class="comparison-row">
+              <span class="comp-label">Dragos / Claroty / Nozomi</span>
+              <span class="comp-value font-mono">OT Specific // High license barrier</span>
+            </div>
+            <div class="comparison-row">
+              <span class="comp-label">CrowdStrike / Splunk</span>
+              <span class="comp-value font-mono">Enterprise IT // Heavy operational overhead</span>
+            </div>
+            <div class="comparison-row active-comp">
+              <span class="comp-label">AEGIS Platform</span>
+              <span class="comp-value font-mono highlight-text">Dual IT/OT // Zero-cost base, human-gated response</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- System Subsystems Section -->
+    <section id="system" class="system-section reveal-on-scroll">
+      <div class="section-container">
+        <span class="section-eyebrow font-mono">SYSTEM INTERNALS</span>
+        <div class="system-intro">
+          <h2>Three concurrent subsystems.</h2>
+          <p>AEGIS operates as a layered defense mesh rather than a linear sequence of steps. Isolation, reasoning, and response run continuously.</p>
+        </div>
+
+        <div class="layer-stack">
+          <!-- Layer 1 -->
+          <div class="layer-item" id="layer-detection" data-layer="0">
+            <div class="layer-summary">
+              <span class="layer-number font-mono">SYS_LAYER_01</span>
+              <h3>Unsupervised Isolation & SHAP Explanations</h3>
+              <span class="layer-chevron font-mono">[+]</span>
+            </div>
+            <div class="layer-details">
+              <p>
+                An unsupervised Isolation Forest algorithm baseline monitors live Modbus registry polls and syslog streams, feeding anomalous events directly into a local SHAP explainability pipeline to score the exact feature weight of the outlier.
+              </p>
+              <div class="layer-data font-mono">
+                [MODEL_TYPE: ISOLATION_FOREST] [METRIC: SHAP_VALUE] [LATENCY: &lt;12ms]
+              </div>
+            </div>
+          </div>
+
+          <!-- Layer 2 -->
+          <div class="layer-item" id="layer-reasoning" data-layer="1">
+            <div class="layer-summary">
+              <span class="layer-number font-mono">SYS_LAYER_02</span>
+              <h3>MITRE ATT&CK Graph Reasoner</h3>
+              <span class="layer-chevron font-mono">[+]</span>
+            </div>
+            <div class="layer-details">
+              <p>
+                Anomalies are not reported in isolation. A real-time graph reasoning engine maps alert pairs to known MITRE ATT&CK techniques, generating threat propagation chains to predict the attacker's trajectory towards operational assets.
+              </p>
+              <div class="layer-data font-mono">
+                [TOPOLOGY: ATTACK_PATH_GRAPH] [CLASSIFIER: MITRE_T1021_T1090] [STATE: ACTIVE]
+              </div>
+            </div>
+          </div>
+
+          <!-- Layer 3 -->
+          <div class="layer-item" id="layer-response" data-layer="2">
+            <div class="layer-summary">
+              <span class="layer-number font-mono">SYS_LAYER_03</span>
+              <h3>Human-Gated Orchestrated Response</h3>
+              <span class="layer-chevron font-mono">[+]</span>
+            </div>
+            <div class="layer-details">
+              <p>
+                No automated agent executes high-stakes isolation policies unilaterally. Safe-state interventions (such as domain controller routing isolation or Modbus breaker trips) sit in a pending queue awaiting explicit human analyst authorization.
+              </p>
+              <div class="layer-data font-mono">
+                [INTERFACE: DEFENDER_CONSOLE] [GATEWAY: POLICY_ENFORCER] [TIMEOUT: NONE]
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Proof Section -->
+    <section id="proof" class="proof-section reveal-on-scroll">
+      <div class="section-container">
+        <span class="section-eyebrow font-mono">PROOF OF TESTING</span>
+        <div class="proof-layout">
+          <div class="proof-content">
+            <h2>Tested against physical environments.</h2>
+            <p>
+              We run complete Docker-packaged digital twins of target infrastructure to validate detection thresholds. The platform is continuously tested against actual Modbus register values, domain controllers, and medical equipment simulators, rather than static mock logs.
+            </p>
+            <div class="digital-twin-selectors">
+              <button class="twin-btn active" data-twin="hospital">Hospital Twin</button>
+              <button class="twin-btn" data-twin="domain">Domain Controller Twin</button>
+              <button class="twin-btn" data-twin="modbus">OT Modbus SCADA</button>
+            </div>
+          </div>
+
+          <div class="proof-diagram-wrapper">
+            <div class="diagram-display font-mono" id="twin-info-panel">
+              <div class="diagram-heading">HOSPITAL_DIGITAL_TWIN // HL7_FEED</div>
+              
+              <!-- Twin Schematic (SVG-based telemetry) -->
+              <svg id="twin-schematic" viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+                <!-- Inner grid -->
+                <rect width="100%" height="100%" fill="#0F0F0F" stroke="#2A2A2A" />
+                <path d="M 0,55 L 400,55 M 0,110 L 400,110 M 0,165 L 400,165 M 100,0 L 100,220 M 200,0 L 200,220 M 300,0 L 300,220" stroke="#1d1d1d" stroke-width="1"/>
+                
+                <!-- Telemetry streams represented dynamically -->
+                <g id="telemetry-group">
+                  <!-- Generated by JS -->
+                </g>
+              </svg>
+              
+              <div class="diagram-telemetry-text">
+                STATUS: <span class="highlight-text">INTEGRATED</span><br>
+                FLOW_RATE: 4.8 kbps // JITTER: 0.12ms // SIMULATOR: ON
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section reveal-on-scroll">
+      <div class="section-container">
+        <span class="section-eyebrow font-mono">REQUEST DEPLOYMENT</span>
+        <div class="contact-layout">
+          <div class="contact-card">
+            <form id="marketing-contact-form" class="contact-form">
+              <div class="form-group">
+                <label for="contact-name" class="font-mono">NAME</label>
+                <input type="text" id="contact-name" name="name" required placeholder="Analyst or Administrator Name">
+              </div>
+              <div class="form-group">
+                <label for="contact-email" class="font-mono">EMAIL</label>
+                <input type="email" id="contact-email" name="email" required placeholder="operator@domain.org">
+              </div>
+              <div class="form-group">
+                <label for="contact-msg" class="font-mono">MESSAGE</label>
+                <textarea id="contact-msg" name="message" rows="4" required placeholder="Specify infrastructure type (Hospital / AD / Modbus SCADA) and scaling details"></textarea>
+              </div>
+              <button type="submit" class="btn btn-block btn-accent font-mono">SUBMIT_INTEGRATION_REQUEST</button>
+              <div class="form-status font-mono" id="form-status-msg"></div>
+            </form>
+          </div>
+
+          <div class="contact-direct">
+            <h2>Deploy locally or host with us.</h2>
+            <p>
+              We provide the core engine open-source under a permissive license. For production support, compliance validation, and managed active alerting, contact our infrastructure team directly.
+            </p>
+            <div class="direct-link font-mono">
+              <span>DIRECT_SECURE_CHANNEL:</span>
+              <a href="mailto:ops@aegis.security" class="accent-text email-anchor">ops@aegis.security</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <a href="/index.html" class="lockup">
+        <div class="glass-tile small-tile" style="width: 40px; height: 40px; border-radius: 10px;">
+          <svg width="20" height="20" viewBox="0 0 100 100" fill="none">
+            <path d="M 50 6 L 62 22 L 54 22 L 50 16 L 46 22 L 38 22 Z" fill="url(#accentGradFooter)"/>
+            <path d="M50 28 L78 88 L64 88 L58.5 74 L41.5 74 L36 88 L22 88 Z" fill="#E6E8EB"/>
+            <rect class="logo-bg-rect" x="44" y="60" width="12" height="8" fill="var(--bg-base)"/>
+            <defs>
+              <linearGradient id="accentGradFooter" x1="38" y1="6" x2="62" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFD37A"/>
+                <stop offset="1" stop-color="#FFB020"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="aegis-wordmark" style="font-size: 18px;">Aegis</span>
+      </a>
+      <div class="footer-right font-mono">
+        <span>AEGIS SECURITY © 2026</span>
+        <span>RESTRICTED DIST_02A // DEPLOYMENT_READY</span>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/marketing/js/marketing.js"></script>
+</body>
+</html>

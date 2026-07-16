@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AEGIS — Arrow Mark / Glass Concept</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+
+  :root{
+    --bg-base:#0B0D10;
+    --accent:#FFB020;
+    --accent-soft:#FFD37A;
+    --text-primary:#E6E8EB;
+    --text-muted:#6B7280;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 30% 20%, rgba(255,176,32,0.06), transparent 40%),
+      var(--bg-base);
+    color:var(--text-primary);
+    font-family:'IBM Plex Mono',monospace;
+    padding:56px 24px 100px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:56px;
+  }
+  h1{
+    font-size:12px;
+    letter-spacing:0.15em;
+    color:var(--text-muted);
+    text-transform:uppercase;
+  }
+
+  /* ---- Glass tile ---- */
+  .glass-tile{
+    position:relative;
+    width:120px;height:120px;
+    border-radius:26px;
+    background:linear-gradient(155deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.14);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.25),
+      inset 0 -12px 24px rgba(0,0,0,0.35),
+      0 20px 40px rgba(0,0,0,0.5);
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+  .glass-tile::before{
+    /* sheen sweep */
+    content:'';
+    position:absolute;
+    top:-40%; left:-20%;
+    width:60%; height:180%;
+    background:linear-gradient(115deg, rgba(255,255,255,0.18), transparent 60%);
+    transform:rotate(20deg);
+  }
+
+  /* ---- Arrow-A mark ---- */
+  svg.mark{ position:relative; z-index:1; }
+
+  /* ---- Lockups ---- */
+  .lockup{
+    display:flex; align-items:center; gap:16px;
+  }
+  .small-tile{
+    width:52px;height:52px;border-radius:12px;
+  }
+  .small-tile svg{ width:26px; height:26px; }
+  .wordtext{
+    display:flex; align-items:baseline;
+  }
+  .wordtext .big{
+    font-size:0; /* hide, icon carries the A */
+  }
+  .egis{
+    font-size:26px;
+    font-weight:600;
+    letter-spacing:0.08em;
+    color:var(--text-primary);
+  }
+
+  .label{
+    font-size:10px;
+    color:var(--text-muted);
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    margin-bottom:16px;
+    text-align:center;
+  }
+  .group{ display:flex; flex-direction:column; align-items:center; }
+
+  .dark-bg-strip{
+    width:100%; max-width:420px;
+    background:#08090B;
+    border:1px solid #1A1D22;
+    border-radius:8px;
+    padding:40px;
+    display:flex; align-items:center; justify-content:center;
+  }
+</style>
+</head>
+<body>
+<h1>// AEGIS — Arrow Mark, Glass Display</h1>
+
+<div class="group">
+  <div class="label">01 — Icon Mark (Favicon / App Tile)</div>
+  <div class="glass-tile">
+    <svg class="mark" width="56" height="56" viewBox="0 0 100 100" fill="none">
+      <!-- caret/arrow accent above the A -->
+      <path d="M 50 6 L 62 22 L 54 22 L 50 16 L 46 22 L 38 22 Z" fill="url(#accentGrad)"/>
+      <!-- A legform, arrow-sharp apex, flat crossbar -->
+      <path d="M50 28 L78 88 L64 88 L58.5 74 L41.5 74 L36 88 L22 88 Z" fill="var(--text-primary)"/>
+      <rect x="44" y="60" width="12" height="8" fill="#08090B"/>
+      <defs>
+        <linearGradient id="accentGrad" x1="38" y1="6" x2="62" y2="22" gradientUnits="userSpaceOnUse">
+          <stop stop-color="var(--accent-soft)"/>
+          <stop offset="1" stop-color="var(--accent)"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+<div class="group">
+  <div class="label">02 — Full Lockup (Header / Nav)</div>
+  <div class="dark-bg-strip">
+    <div class="lockup">
+      <div class="glass-tile small-tile">
+        <svg width="26" height="26" viewBox="0 0 100 100" fill="none">
+          <path d="M 50 6 L 62 22 L 54 22 L 50 16 L 46 22 L 38 22 Z" fill="url(#accentGrad2)"/>
+          <path d="M50 28 L78 88 L64 88 L58.5 74 L41.5 74 L36 88 L22 88 Z" fill="#E6E8EB"/>
+          <rect x="44" y="60" width="12" height="8" fill="#08090B"/>
+          <defs>
+            <linearGradient id="accentGrad2" x1="38" y1="6" x2="62" y2="22" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FFD37A"/>
+              <stop offset="1" stop-color="#FFB020"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <span class="egis">EGIS</span>
+    </div>
+  </div>
+</div>
+
+<div class="group">
+  <div class="label">03 — Large Glass Display (Hero Use)</div>
+  <div class="glass-tile" style="width:180px;height:180px;border-radius:36px;">
+    <svg class="mark" width="88" height="88" viewBox="0 0 100 100" fill="none">
+      <path d="M 50 6 L 62 22 L 54 22 L 50 16 L 46 22 L 38 22 Z" fill="url(#accentGrad3)"/>
+      <path d="M50 28 L78 88 L64 88 L58.5 74 L41.5 74 L36 88 L22 88 Z" fill="var(--text-primary)"/>
+      <rect x="44" y="60" width="12" height="8" fill="#08090B"/>
+      <defs>
+        <linearGradient id="accentGrad3" x1="38" y1="6" x2="62" y2="22" gradientUnits="userSpaceOnUse">
+          <stop stop-color="var(--accent-soft)"/>
+          <stop offset="1" stop-color="var(--accent)"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+</div>
+
+</body>
+</html>

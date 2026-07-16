@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AEGIS Defender Console</title>
+  <meta name="description" content="AEGIS live operations security console for security analysts monitoring critical IT/OT infrastructures.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/dashboard/css/dashboard.css">
+  <script>
+    (function () {
+      const savedTheme = localStorage.getItem('aegis-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = savedTheme || (prefersDark ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+</head>
+<body class="console-body">
+
+  <!-- Top Bar -->
+  <header class="console-topbar">
+    <div class="topbar-logo">
+      <a href="/index.html" class="lockup">
+        <div class="glass-tile small-tile">
+          <svg viewBox="0 0 100 100" fill="none">
+            <path d="M 50 6 L 62 22 L 54 22 L 50 16 L 46 22 L 38 22 Z" fill="url(#accentGradDash)"/>
+            <path d="M50 28 L78 88 L64 88 L58.5 74 L41.5 74 L36 88 L22 88 Z" fill="#E6E8EB"/>
+            <rect x="44" y="60" width="12" height="8" fill="var(--bg-base)"/>
+            <defs>
+              <linearGradient id="accentGradDash" x1="38" y1="6" x2="62" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#FFD37A"/>
+                <stop offset="1" stop-color="#FFB020"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="aegis-wordmark">Aegis</span>
+      </a>
+      <span class="topbar-version font-mono">DEFENDER_v1.0.4</span>
+    </div>
+    
+    <div class="telemetry-banner font-mono">
+      <span class="banner-item"><span class="label">SESSION:</span> <span class="val" id="session-timer">02:45:10</span></span>
+      <span class="banner-item"><span class="label">OPERATOR:</span> <span class="val">R. MEHTA [ID_9921]</span></span>
+      <span class="banner-item"><span class="label">NODE_LATENCY:</span> <span class="val text-nominal">11ms // NOMINAL</span></span>
+      <span class="banner-item"><span class="label">CLOCK:</span> <span class="val" id="live-clock">15:26:01</span></span>
+    </div>
+    <div class="topbar-actions">
+      <button id="theme-toggle" class="neo-btn-sm" title="Toggle Theme" style="margin-right: 1rem; display: inline-flex;">
+        <span id="theme-toggle-icon">☀</span>
+      </button>
+      <a href="/index.html" class="topbar-btn font-mono">← EXIT_TO_SITE</a>
+    </div>
+  </header>
+
+  <!-- Main Three-Zone Interface -->
+  <div class="console-layout">
+    
+    <!-- Zone 1: Asset Nav (Left, Collapsible) -->
+    <aside class="asset-panel" id="asset-drawer">
+      <div class="panel-header font-mono">
+        <span>ASSET_INVENTORY</span>
+        <button id="toggle-assets" class="neo-btn-sm" title="Toggle Sidebar">◀</button>
+      </div>
+      <div class="panel-body scrollable">
+        <div class="asset-list" id="asset-list-container">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center Section: Graph Reasoner & Alert Timeline -->
+    <main class="console-center">
+      
+      <!-- Zone 2A: MITRE ATT&CK Graph Reasoner (Upper Center) -->
+      <section class="graph-panel">
+        <div class="panel-header font-mono">
+          <span>MITRE_ATT&CK_REASONER_OUTPUT</span>
+          <span class="header-status-pill critical-pill">ACTIVE_ATTACK_CHAIN</span>
+        </div>
+        <div class="panel-body relative-body">
+          <div class="graph-canvas-wrapper">
+            <!-- Emboldened circuit board background and drawing canvas -->
+            <canvas id="attack-chain-canvas"></canvas>
+            
+            <!-- Nodes placed dynamically overlaying the canvas for neomorphic button precision styling -->
+            <div id="graph-nodes-overlay"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Zone 2B: Alert Timeline (Lower Center) -->
+      <section class="timeline-panel">
+        <div class="panel-header font-mono">
+          <span>ALERT_TELEMETRY_FEED</span>
+          <span class="active-count font-mono" id="alert-counter">2 ACTIVE GATES</span>
+        </div>
+        <div class="panel-body scrollable">
+          <div class="alert-table-wrapper">
+            <table class="alert-table">
+              <thead>
+                <tr class="font-mono">
+                  <th>TIME</th>
+                  <th>ALERT ID</th>
+                  <th>ASSET</th>
+                  <th>THREAT DESCR.</th>
+                  <th>STAGE</th>
+                  <th>SEVERITY</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="alert-feed-tbody">
+                <!-- Populated dynamically by JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Zone 3: SHAP Explainability Drawer (Right, contextual slide-in) -->
+    <aside class="explain-panel" id="shap-drawer">
+      <div class="panel-header font-mono">
+        <span>SHAP_EXPLAINABILITY_MODEL</span>
+        <button id="close-shap" class="neo-btn-sm">▶</button>
+      </div>
+      <div class="panel-body scrollable">
+        <div id="shap-content-placeholder" class="shap-empty-state">
+          <div class="font-mono text-muted">SELECT_ACTIVE_ALERT_TO_LOAD_EXPLAINABILITY</div>
+        </div>
+        <div id="shap-content" class="hidden">
+          <div class="shap-header">
+            <span class="eyebrow font-mono" id="shap-alert-id">AEGIS-2026-8840</span>
+            <h3 id="shap-alert-title">Anomalous Modbus Register Write</h3>
+            <p id="shap-alert-descr" class="text-muted">Analyzing anomaly contributions...</p>
+          </div>
+          
+          <div class="shap-stats font-mono">
+            <div class="stat-box neo-inset">
+              <span class="label">ANOMALY_CONFIDENCE</span>
+              <span class="val text-critical" id="shap-score">94%</span>
+            </div>
+            <div class="stat-box neo-inset">
+              <span class="label">MITRE_MAPPED</span>
+              <span class="val" id="shap-mitre">T0813</span>
+            </div>
+          </div>
+
+          <div class="shap-chart-header font-mono">
+            <span>MODEL_FEATURE_CONTRIBUTION (SHAP VALUES)</span>
+          </div>
+          <div class="shap-chart" id="shap-chart-container">
+            <!-- Populated dynamically by JS -->
+          </div>
+        </div>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Bottom Panel: Persistent Audit Log & Response Action Gates -->
+  <footer class="console-control-deck">
+    <!-- Zone 4: Audit Logs (Left Bottom) -->
+    <div class="audit-log-deck">
+      <div class="deck-header font-mono">AUDIT_LOG_TICKER</div>
+      <div class="deck-body scrollable" id="audit-log-ticker">
+        <!-- Populated dynamically by JS -->
+      </div>
+    </div>
+
+    <!-- Zone 5: Response Action Controls (Right Bottom) -->
+    <div class="action-gate-deck">
+      <div class="deck-header font-mono">HUMAN_GATED_RESPONSE_ACTIONS</div>
+      <div class="deck-body">
+        <div class="action-controls-wrapper">
+          <div class="gate-status font-mono">
+            STATUS: <span id="gate-status-text" class="text-pending">AWAITING AUTHORIZATION...</span>
+          </div>
+          <div class="gate-buttons">
+            <button id="btn-approve" class="action-btn action-btn-approve font-mono">
+              <span class="btn-num">01</span> APPROVE_INTERVENTION
+            </button>
+            <button id="btn-deny" class="action-btn action-btn-deny font-mono">
+              <span class="btn-num">02</span> DENY_AND_DISMISS
+            </button>
+            <button id="btn-escalate" class="action-btn action-btn-escalate font-mono">
+              <span class="btn-num">03</span> ESCALATE_TO_CSIRT
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="/src/dashboard/js/dashboard.js"></script>
+</body>
+</html>
