@@ -347,7 +347,9 @@ function selectAlert(alertId) {
     document.getElementById('shap-alert-title').textContent = alert.title;
     document.getElementById('shap-alert-descr').textContent = alert.details;
     document.getElementById('shap-score').textContent = `${Math.round(alert.shapFeatures[0].value * 100)}%`;
-    document.getElementById('shap-mitre').textContent = alert.technique.split(' ')[0];
+    document.getElementById('shap-mitre').textContent = alert.tactic
+      ? alert.tactic.split(' ')[0]
+      : 'MITRE N/A';  // tactic is null for live backend incidents (no ATT&CK data yet)
 
     // Status styling for score
     const scoreEl = document.getElementById('shap-score');
@@ -385,12 +387,13 @@ function selectAlert(alertId) {
     // Update Action Button availability based on alert status
     resetResponseGateButtons();
     
-    // Highlight relevant node in MITRE graph
-    highlightGraphNodeForTactic(alert.tactic);
+    // Highlight relevant node in MITRE graph (skip when tactic is null)
+    if (alert.tactic) highlightGraphNodeForTactic(alert.tactic);
   }
 }
 
 function highlightGraphNodeForTactic(tactic) {
+  if (!tactic) return;  // null = no MITRE data from backend yet
   const nodes = document.querySelectorAll('.graph-node');
   nodes.forEach(node => {
     const nodeTactic = node.getAttribute('data-tactic');

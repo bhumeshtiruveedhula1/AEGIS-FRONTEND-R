@@ -67,22 +67,10 @@ export async function fetchOverview() {
   const data = await apiFetch('/overview');
   if (!data) return null;
 
-  // platform_status arrives as a stringified dict from the backend — parse it
-  let platformStatus = data.platform_status;
-  if (typeof platformStatus === 'string') {
-    try {
-      // Python repr uses single quotes — replace with double quotes for JSON
-      platformStatus = JSON.parse(
-        platformStatus
-          .replace(/'/g, '"')
-          .replace(/True/g, 'true')
-          .replace(/False/g, 'false')
-          .replace(/None/g, 'null')
-      );
-    } catch {
-      platformStatus = { status: data.platform_status };
-    }
-  }
+  // platform_status is now a proper dict from the backend
+  const platformStatus = (typeof data.platform_status === 'object' && data.platform_status !== null)
+    ? data.platform_status
+    : {};
 
   return {
     generatedAt: data.generated_at,
@@ -116,14 +104,14 @@ export async function fetchIncidents() {
     id: inc.alert_id || inc.context_id || `INC-${idx}`,
     assetId: inc.entity_id || inc.host || 'unknown',
     title: `[${(inc.severity || 'unknown').toUpperCase()}] Anomaly detected on ${inc.host || inc.entity_id || 'entity'}`,
-    tactic: 'ANOMALY',                                   // backend has no MITRE tactic field yet
+    tactic: null,                                        // backend has no MITRE tactic yet — null signals "no data"
     severity: (inc.severity || 'low').toLowerCase(),
     status: _mapStatus(inc.status),
     timestamp: _fmtTime(inc.timestamp),
     details: `Entity: ${inc.entity_id || '—'} | Host: ${inc.host || '—'} | Score: ${
       inc.anomaly_score != null ? inc.anomaly_score.toFixed(3) : 'N/A'
     } | Confidence: ${inc.detection_confidence != null ? (inc.detection_confidence * 100).toFixed(1) + '%' : 'N/A'}`,
-    shapFeatures: [
+    shapFeatures: [                                      // reconstructed from available floats — not ATT&CK reasoner output
       {
         name: 'anomaly_score',
         value: inc.anomaly_score ?? 0,
