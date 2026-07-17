@@ -2,13 +2,17 @@
    AEGIS Defender Console - Core Client Logic
    ========================================================================= */
 
-import { mockAssets, mockAlerts, mockAuditLogs, graphStructure } from './fixtures.js';
+import { loadDashboardData } from './api.js';
+import { mockAssets, mockAlerts, mockAuditLogs, graphStructure as mockGraphStructure } from './fixtures.js';
 
-// State Management
+
+// State Management — populated by loadDashboardData() on DOM ready
 let selectedAssetId = null;
 let selectedAlertId = null;
-let activeAlerts = [...mockAlerts];
-let auditLogs = [...mockAuditLogs];
+let activeAlerts = [...mockAlerts];       // pre-filled with fixtures; replaced on load
+let auditLogs = [...mockAuditLogs];       // pre-filled with fixtures; replaced on load
+let graphStructure = mockGraphStructure;  // pre-filled with fixtures; replaced on load
+
 
 // Canvas Animation state
 let canvas, ctx;
@@ -16,7 +20,32 @@ let pulseOffset = 0;
 let animationFrameId = null;
 let pulseActiveEndTime = Date.now() + 3000; // Animate for 3 seconds on page load
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // ── Fetch real backend data (falls back to fixtures on any error) ────────
+  try {
+    const data = await loadDashboardData();
+    activeAlerts     = [...data.alerts];
+    auditLogs        = [...data.auditLogs];
+    graphStructure   = data.graphStructure;
+
+    // Inject platform status into header badge if element exists
+    if (data.overview) {
+      const statusBadge = document.getElementById('platform-status-badge');
+      if (statusBadge) {
+        statusBadge.textContent = (data.overview.status || 'unknown').toUpperCase();
+        statusBadge.className   = `status-badge status-${data.overview.status}`;
+      }
+      console.info('[AEGIS] Backend connected. Status:', data.overview.status,
+        '| Incidents:', data.alerts.length,
+        '| Orchestrations today:', data.overview.orchestrationToday?.total ?? 0);
+    } else {
+      console.warn('[AEGIS] Backend unavailable — running on fixture data.');
+    }
+  } catch (err) {
+    console.warn('[AEGIS] loadDashboardData failed, using fixtures:', err);
+  }
+
+  // ── Initialise all panels (same as before, now with live data) ───────────
   initLiveTelemetry();
   initThemeSupport();
   initAssetNav();
@@ -31,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     selectAlert(activeAlerts[0].id);
   }
 });
+
 
 /* --------------------------------------------------------------------------
    Dark/Light Theme Support
