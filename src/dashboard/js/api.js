@@ -104,7 +104,18 @@ export async function fetchIncidents() {
     id: inc.alert_id || inc.context_id || `INC-${idx}`,
     assetId: inc.entity_id || inc.host || 'unknown',
     title: `[${(inc.severity || 'unknown').toUpperCase()}] Anomaly detected on ${inc.host || inc.entity_id || 'entity'}`,
-    tactic: null,                                        // backend has no MITRE tactic yet — null signals "no data"
+    // mitre_tactic from backend (ctx.mitre.primary_technique.tactic_name).
+    // null only when the backend produced no ATT&CK mapping for this incident.
+    tactic: inc.mitre_tactic
+      ? `${inc.mitre_tactic}${inc.mitre_tactic_id ? ' (' + inc.mitre_tactic_id + ')' : ''}`
+      : null,
+    mitreDetail: {
+      tactic: inc.mitre_tactic ?? null,
+      tacticId: inc.mitre_tactic_id ?? null,
+      technique: inc.mitre_technique ?? null,
+      techniqueId: inc.mitre_technique_id ?? null,
+      confidence: inc.mitre_confidence ?? null,
+    },
     severity: (inc.severity || 'low').toLowerCase(),
     status: _mapStatus(inc.status),
     timestamp: _fmtTime(inc.timestamp),
